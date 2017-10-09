@@ -4,7 +4,8 @@
   "description": "Uday Rebbapragada ToDo List",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/test.js"
+    "test": "mocha test/test.js",
+    "postinstall": "echo postinstall time; ./node_modules/grunt/bin/grunt"
   },
   "author": "Uday Rebbparagada",
   "license": "ISC",
