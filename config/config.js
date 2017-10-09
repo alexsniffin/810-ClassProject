@@ -6,12 +6,12 @@ var config = {
     development: {
         root: rootPath,
         app: {name: 'ToDo'},
-        port: 5000,
+        port: 80,
     },
     test: {
         root: rootPath,
         app: {name: 'ToDo'},
-        port: 4000,
+        port: 80,
     },
 
     production: {
