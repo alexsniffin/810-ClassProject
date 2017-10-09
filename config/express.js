@@ -16,9 +16,13 @@ module.exports = function (app, config) {
         throw new Error('unable to connect to database at ' + config.db);
     });
 
-
     if (process.env.NODE_ENV !== 'test') {
         app.use(morgan('dev'));
+
+        mongoose.set('debug', true);
+        mongoose.connection.once('open', function callback() {
+            logger.log("Mongoose connected to the database");
+        });
 
         app.use(function (req, res, next) {
             logger.log('Request from ' + req.connection.remoteAddress, 'info');
@@ -41,7 +45,6 @@ module.exports = function (app, config) {
         require(controller);
     });
 
-
     var users = [{name: 'John', email: 'woo@hoo.com'},
         {name: 'Betty', email: 'loo@woo.com'},
         {name: 'Hal', email: 'boo@woo.com'}
@@ -50,7 +53,6 @@ module.exports = function (app, config) {
     app.get('/api/users', function (req, res) {
         res.status(200).json(users);
     });
-
 
     function One(req, res, next) {
         res.set('X-One', 'One');

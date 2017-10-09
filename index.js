@@ -5,8 +5,6 @@ var logger = require('./config/logger');
 
 var app = express();
 
-//app.set('port', process.env.PORT || 3000);
-
 require('./config/express')(app, config);
 
 logger.log('info', "Creating HTTP server on port: %s", config.port);
@@ -16,10 +14,8 @@ require('http').createServer(app).listen(config.port, function () {
 
 module.exports = app;
 
-
 /*
  ss.static(path.normalize(__dirname) + '/public'));
-
 
  app.use(function(req, res, next){
  console.log('Request from ' + req.ip);
