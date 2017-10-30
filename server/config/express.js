@@ -45,14 +45,14 @@ module.exports = function (app, config) {
         require(controller);
     });
 
-    var users = [{name: 'John', email: 'woo@hoo.com'},
+    /*var users = [{name: 'John', email: 'woo@hoo.com'},
         {name: 'Betty', email: 'loo@woo.com'},
         {name: 'Hal', email: 'boo@woo.com'}
     ];
 
     app.get('/api/users', function (req, res) {
         res.status(200).json(users);
-    });
+    });*/
 
     function One(req, res, next) {
         res.set('X-One', 'One');
@@ -79,11 +79,14 @@ module.exports = function (app, config) {
     });
 
     app.use(function (err, req, res, next) {
-        console.error(err.stack);
+        if(process.env.NODE_ENV !== 'test') {
+            console.error(err.stack);
+        }
         res.type('text/plan');
         res.status(500);
-        res.send('500 Sever Error');
+        res.send('500 Server Error');
     });
+
 
     logger.log("Starting application");
 
