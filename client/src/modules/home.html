@@ -1,4 +1,5 @@
 <template>
-  <h1>${message}</h1>
-  <button click.trigger="login()">Login</button>
+      <h1>${message}</h1>
+      <compose show.bind="showLogin" view="./components/login.html"></compose>
+      <compose show.bind="!showLogin" view="./components/register.html"></compose>
 </template>

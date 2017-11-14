@@ -1,15 +1,44 @@
 var express = require('express'),
     router = express.Router(),
-    logger = require('../../config/logger');
+    logger = require('../../config/logger'),
+    passportService = require('../../config/passport'),
+    passport = require('passport');
 
 var mongoose = require('mongoose');
 var User = mongoose.model('MyModel');
 
+var requireLogin = passport.authenticate('local', { session: false });
+var requireAuth = passport.authenticate('jwt', { session: false });
 
 module.exports = function (app, config) {
     app.use('/api', router);
 
-    router.get('/users', function (req, res, next) {
+    router.route('/users/login').post(requireLogin, login);
+
+    router.put('/users/password/:userId', requireAuth, function(req, res, next){
+        logger.log('Update user ' + req.params.userId, 'verbose');
+
+        User.findById(req.params.userId)
+            .exec()
+            .then(function (user) {
+                if (req.body.password !== undefined) {
+                    user.password = req.body.password;
+                }
+
+                user.save()
+                    .then(function (user) {
+                        res.status(200).json(user);
+                    })
+                    .catch(function (err) {
+                        return next(err);
+                    });
+            })
+            .catch(function (err) {
+                return next(err);
+            });
+    });
+
+    router.get('/users', requireAuth, function (req, res, next) {
         logger.log('Get all users', 'verbose');
 
         var query = User.find()
@@ -27,7 +56,7 @@ module.exports = function (app, config) {
             });
     });
 
-    router.get('/user/:userId', function (req, res, next) {
+    router.get('/user/:userId', requireAuth, function (req, res, next) {
         logger.log('Get user' + req.params.id, 'verbose');
 
         User.findById(req.params.userId)
@@ -44,7 +73,7 @@ module.exports = function (app, config) {
 
     });
 
-    router.post('/user', function (req, res, next) {
+    router.post('/users', function (req, res, next) {
         logger.log('Create User', 'verbose');
         var user = new User(req.body);
 
@@ -55,7 +84,7 @@ module.exports = function (app, config) {
         });
     });
 
-    router.put('/user/:userId', function (req, res, next) {
+    router.put('/users/:userId', requireAuth, function (req, res, next) {
         logger.log('Update user' + req.params.id, 'verbose');
 
         User.findOneAndUpdate({_id: req.params.userId}, req.body, {new:true, multi:false})
@@ -67,7 +96,7 @@ module.exports = function (app, config) {
             });
     });
 
-    router.delete('/user/:userId', function (req, res, next) {
+    router.delete('/users/:userId', requireAuth, function (req, res, next) {
         logger.log('Delete user' + req.params.id, 'verbose');
 
         User.remove({ _id: req.params.userId })

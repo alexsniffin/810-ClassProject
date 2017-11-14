@@ -9,7 +9,9 @@ var config = {
             name: 'ToDo'
         },
         port: 5000,
-        db: 'mongodb://127.0.0.1:27017/todo-dev'
+        db: 'mongodb://127.0.0.1:27017/todo-dev',
+        secret: 'cayennedlikedhistreats'
+
     },
     test: {
         root: rootPath,
@@ -17,7 +19,8 @@ var config = {
             name: 'ToDo'
         },
         port: 3000,
-        db: 'mongodb://127.0.0.1:27017/todo-test'
+        db: 'mongodb://127.0.0.1:27017/todo-test',
+        secret: 'cayennedlikedhistreats'
     },
 
     production: {
@@ -26,7 +29,8 @@ var config = {
             name: 'ToDo'
         },
         port: 80,
-        db: 'mongodb://127.0.0.1:27017/todo-prod'
+        db: 'mongodb://127.0.0.1:27017/todo-prod',
+        secret: 'cayennedlikedhistreats'
     }
 };
 
