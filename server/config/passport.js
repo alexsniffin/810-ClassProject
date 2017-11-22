@@ -10,12 +10,11 @@ var localOptions = { usernameField: 'email' };
 
 var jwtOptions = {
     jwtFromRequest: extractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: config.secret,
-    issuer : 'com.microsoft.example',
-    audience : "com.chirps.www"
+    secretOrKey: config.secret
 };
 
 var jwtLogin = new jwtStrategy(jwtOptions, function(payload, next){
+    console.log(payload);
     User.findById(payload._id).exec()
         .then(function(user){
             if (user){
@@ -58,8 +57,7 @@ setUserInfo = function(req){
         _id: req._id,
         firstName: req.firstName,
         lastName: req.lastName,
-        email: req.email,
-        issuer: "edu.uwm"
+        email: req.email
     };
 };
 

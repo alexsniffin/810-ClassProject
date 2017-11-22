@@ -48,15 +48,6 @@ module.exports = function (app, config) {
         require(controller);
     });
 
-    /*var users = [{name: 'John', email: 'woo@hoo.com'},
-        {name: 'Betty', email: 'loo@woo.com'},
-        {name: 'Hal', email: 'boo@woo.com'}
-    ];
-
-    app.get('/api/users', function (req, res) {
-        res.status(200).json(users);
-    });*/
-
     function One(req, res, next) {
         res.set('X-One', 'One');
         next();
@@ -72,6 +63,7 @@ module.exports = function (app, config) {
     });
 
     require('../app/controllers/users')(app, config);
+    require('../app/controllers/todos')(app, config);
 
     app.use(express.static(config.root + '/public'));
 

@@ -8,16 +8,17 @@ var mongoose = require('mongoose');
 var Todo = mongoose.model('MyModelTodos');
 
 var requireLogin = passport.authenticate('local', { session: false });
+var requireAuth = passport.authenticate('jwt', { session: false });
 
 module.exports = function (app, config) {
     app.use('/api', router);
 
     router.route('/users/login').post(requireLogin, login);
 
-    router.get('/todos', function (req, res, next) {
+    router.get('/todos', requireAuth, function (req, res, next) {
         logger.log('Get all todos', 'verbose');
 
-        var query = User.find()
+        var query = Todo.find()
             .sort(req.query.order)
             .exec()
             .then(result => {
@@ -32,13 +33,13 @@ module.exports = function (app, config) {
             });
     });
 
-    router.get('/todos/:todoId', function (req, res, next) {
-        logger.log('Get user' + req.params.id, 'verbose');
+    router.get('/todos/:todoId',requireAuth, function (req, res, next) {
+        logger.log('Get todo' + req.params.id, 'verbose');
 
         User.findById(req.params.todoId)
-            .then(user => {
-                if(user){
-                    res.status(200).json(user);
+            .then(todo => {
+                if(todo){
+                    res.status(200).json(todo);
                 } else {
                     res.status(404).json({message: "No todo found"});
                 }
@@ -49,9 +50,9 @@ module.exports = function (app, config) {
 
     });
 
-    router.post('/todos', function (req, res, next) {
+    router.post('/todos', requireAuth, function (req, res, next) {
         logger.log('Create Todo', 'verbose');
-        var user = new User(req.body);
+        var user = new Todo(req.body);
 
         user.save().then(result => {
             res.status(201).json(result);
@@ -60,23 +61,23 @@ module.exports = function (app, config) {
         });
     });
 
-    router.put('/todos/:todoId', function (req, res, next) {
-        logger.log('Update user' + req.params.id, 'verbose');
+    router.put('/todos/:todoId', requireAuth, function (req, res, next) {
+        logger.log('Update todo' + req.params.id, 'verbose');
 
         User.findOneAndUpdate({_id: req.params.todoId}, req.body, {new:true, multi:false})
-            .then(user => {
-                res.status(200).json(user);
+            .then(todo => {
+                res.status(200).json(todo);
             })
             .catch(error => {
                 return next(error);
             });
     });
 
-    router.delete('/todos/:todoId', function (req, res, next) {
+    router.delete('/todos/:todoId', requireAuth, function (req, res, next) {
         logger.log('Delete todo' + req.params.id, 'verbose');
 
         User.remove({ _id: req.params.todoId })
-            .then(user => {
+            .then(todo => {
                 res.status(200).json({msg: "Todo Deleted"});
             })
             .catch(error => {
