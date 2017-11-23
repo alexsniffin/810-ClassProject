@@ -9,7 +9,7 @@ var cors = require('cors');
 
 module.exports = function (app, config) {
 
-    app.use(cors({origin: 'http://localhost:9000'}));
+    app.use(cors({origin: 'http://127.0.0.1:9000'}));
 
     logger.log("Loading Mongoose functionality");
     mongoose.Promise = require('bluebird');
@@ -37,6 +37,8 @@ module.exports = function (app, config) {
     app.use(bodyParser.urlencoded({
         extended: true
     }));
+    app.use(bodyParser.json({limit: '1000mb'}));
+    app.use(bodyParser.urlencoded({limit: '1000mb', extended: true}));
 
     var models = glob.sync(config.root + '/app/models/*.js');
     models.forEach(function (model) {

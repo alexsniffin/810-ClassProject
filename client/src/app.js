@@ -1,4 +1,4 @@
-import {AuthorizeStep} from 'aurelia-auth';
+import { AuthorizeStep } from 'aurelia-auth';
 
 export class App {
   configureRouter(config, router) {

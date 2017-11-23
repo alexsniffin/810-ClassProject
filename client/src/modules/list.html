@@ -1,4 +1,19 @@
 <template>
-  <h1>${message}</h1>
-  <button click.trigger="logout()">Logout</button>
+  <div id="content-wrapper">
+    <h1>${message}</h1>
+
+    <span class="rightMargin pull-right">
+      <i click.trigger="logout()" class="fa fa-sign-out fa-lg" aria-hidden="true"></i>
+    </span>
+    <span class=" rightMargin pull-right">
+      <i click.trigger="createTodo()" class="fa fa-plus fa-lg" aria-hidden="true"></i>
+    </span>
+
+    <div class="row">
+      <div class="col-md-12">
+        <compose show.bind="showList" view="./components/todoList.html"></compose>
+        <compose show.bind="!showList" view="./components/todoForm.html"></compose>
+      </div>
+    </div>
+  </div>
 </template>

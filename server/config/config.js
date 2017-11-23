@@ -10,6 +10,7 @@ var config = {
         },
         port: 5000,
         db: 'mongodb://127.0.0.1:27017/todo-dev',
+        uploads: rootPath + "/public/uploads/",
         secret: 'cayennedlikedhistreats'
 
     },
