@@ -10,8 +10,9 @@ var TodoSchema = new Schema({
     completed: {type: Boolean, default: false},
     priority: {type: String},
     file: {
-        fileName: String,
-        originalName: String
+        filename: String,
+        originalName: String,
+        dateUploaded: Date
     }
 });
 

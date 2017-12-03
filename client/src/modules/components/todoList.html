@@ -1,17 +1,10 @@
 <template>
-    <div class="card topMargin">
-        <div class="card-body">
-            <div class="row">
-                <span class="col">
-                    <div class="form-check">
-                        <label class="form-check-label">
-                            <input change.trigger="toggleShowCompleted()" type="checkbox"
-                                   class="form-check-input">
-                            Show completed
-                        </label>
-                    </div>
-                </span>
-            </div>
+    <div class="card">
+        <div class="form-check">
+            <label class="form-check-label">
+                <input change.trigger="toggleShowCompleted()" type="checkbox"
+                   class="form-check-input">Show completed
+            </label>
         </div>
     </div>
     <div show.bind="todos.todosArray.length">

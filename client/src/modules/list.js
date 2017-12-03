@@ -43,6 +43,11 @@ export class List {
     this.showList = false;
   }
 
+  back() {
+    //this.router.navigateBack();
+    this.showList = true;
+  }
+
   editTodo(todo){
     this.todoObj = todo;
     this.showList = false;
